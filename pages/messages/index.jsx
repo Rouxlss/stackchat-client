@@ -1,9 +1,44 @@
-import React from 'react'
+import React, { useContext } from "react";
+import { Chats } from "../../components/Chats";
+import { ChatWindow } from "../../components/ChatWindow";
+import { Loading } from "../../components/Loading";
+import { useRouter } from "next/router";
+
+import { AuthContext } from "../../context/";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const MessagesPage = () => {
-  return (
-    <div>MessagesPage</div>
-  )
-}
+    const router = useRouter();
 
-export default MessagesPage
+    const { user, isLoggedIn, isLoading = true } = useContext(AuthContext);
+    const [userId, setUserId] = useState(null);
+
+    useEffect(() => {
+        if (user) {
+            setUserId(user.id);
+        }
+    }, [user]);
+
+    useEffect(() => {
+        if (!isLoading && !isLoggedIn) {
+            router.push("/login");
+        }
+    }, [isLoading]);
+
+    return (
+        <>
+            <div className="banner"></div>
+            {(isLoading && (
+                <Loading/>
+            )) || (
+                <div className="messages-section">
+                    <Chats userId={userId} />
+                    <ChatWindow />
+                </div>
+            )}
+        </>
+    );
+};
+
+export default MessagesPage;

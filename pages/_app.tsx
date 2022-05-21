@@ -1,14 +1,14 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import {NextUIProvider} from '@nextui-org/react';
-import { themeConfig } from '../themes'
+import { AuthProvider } from '../context'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <NextUIProvider theme={themeConfig}>
-       <Component {...pageProps} />
-    </NextUIProvider>
-  )
+	return (
+		<AuthProvider>
+			<Component {...pageProps} />
+		</AuthProvider>
+
+	)
 }
 
 export default MyApp

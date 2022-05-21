@@ -1,7 +1,8 @@
 import axios from 'axios'
 
-const urlApi = axios.create({
-    baseURL: 'https://stackchat-server.herokuapp.com/api'
+const stackChatApi = axios.create({
+    // baseURL: 'https://stackchat-server.herokuapp.com/api'
+    baseURL: 'http://localhost:4000/api'
 })
 
-export default urlApi;
+export default stackChatApi;

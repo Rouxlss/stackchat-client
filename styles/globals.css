@@ -1,23 +1,34 @@
-html,
-body {
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+
+* {
+    box-sizing: border-box;
     padding: 0;
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-        Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 
 :root {
-	--primary: #03C0A7;
-	--secondary: #f7fafc;
+    --primary: #03C0A7;
+    /* --primary: #c02f03; */
+    --secondary: #f7fafc;
+}
+
+.link {
+    cursor: pointer;
+}
+
+.input-lg {
+    width: 70%;
+}
+
+.select-small {
+    width: 50%;
+    margin-right: 10px;
 }
 
 a {
     color: inherit;
     text-decoration: none;
-}
-
-* {
-    box-sizing: border-box;
 }
 
 .banner {
@@ -26,32 +37,32 @@ a {
     position: absolute;
     top: 0;
     left: 0;
-	background: var(--primary);
-	z-index: 10;
+    background: var(--primary);
+    z-index: 10;
 }
 
 .content {
-	background: rgb(255, 255, 255);
-	position: absolute;
-	top: -200px;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	width: 980px;
-	height: 500px;
-	margin: auto;
-	padding: 50px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;	
-	align-items: center;
-	z-index: 100;
+    background: rgb(255, 255, 255);
+    position: absolute;
+    top: -200px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 980px;
+    height: 500px;
+    margin: auto;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
 }
 
-.container {
-	background: black;
+.section {
+    background: black;
     width: 100vw;
-	height: 100vh;
+    height: 100vh;
     padding: 20px;
     margin: 0 auto;
     margin: 0 auto;
@@ -96,6 +107,243 @@ a {
     -moz-appearance: textfield;
 }
 
-input[type="number"] {
-    -moz-appearance: textfield;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
+
+.messages-section {
+    display: flex;
+    justify-content: space-between;
+    width: 95vw;
+    height: calc(100vh - 100px);
+    margin: auto;
+    background: red;
+    position: relative;
+    z-index: 1000;
+    top: 50px;
+}
+
+.sidebarChats {
+    width: 450px;
+    height: 100%;
+    background: rgb(255, 255, 255);
+    position: relative;
+    padding: 0;
+    margin: 0;
+}
+
+.search {
+    width: 100%;
+    height: 50px;
+    padding: 0 20px;
+    background: rgb(255, 255, 255);
+    border-bottom: 1px solid rgb(240, 238, 238);
+}
+
+.user-actions {
+    width: 100%;
+    height: 80px;
+    padding: 0 20px;
+    background: #F0F2F5;
+    border-bottom: 1px solid rgb(240, 238, 238);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-actions .profile-picture {
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+    border-radius: 100%;
+}
+
+.user-actions .profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 100%;
+}
+
+.user-actions .user-actions__items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.user-actions .user-actions__items .action {
+    font-size: 20px;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    background: #F0F2F5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.user-actions .user-actions__items .action:hover {
+    background: #c1c2c4;
+}
+
+.action-modal {
+    position: absolute;
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+    bottom: -70px;
+    right: 0;
+    padding: 7px 0;
+    border: 1px solid #dcdcdd;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.action-modal__item {
+    width: 100%;
+    height: 50px;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.action-modal__item:hover {
+    background-color: #F0F2F5;
+}
+
+.chats {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.chats li {
+    width: 100%;
+    height: 80px;
+    padding: 0 20px;
+    background: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: 0.2s;
+    margin: 0;
+    border-bottom: 1px solid rgb(240, 238, 238);
+}
+
+.chats li:hover {
+    background: #e9eaeb;
+}
+
+.chat__body {
+    position: relative;
+    display: flex;
+    height: 80%;
+    width: 60%;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.chat__message {
+    margin: 0;
+    height: 40%;
+    color: grey;
+    font-size: 14px;
+    display: flex;
+    align-items: baseline;
+}
+
+.chat__message i {
+    margin-right: 5px;
+}
+
+.chat__name {
+    height: 40%;
+    margin: 0;
+}
+
+.chat__profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+}
+
+.chat__profile-picture img {
+    border-radius: 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.chat__info {
+    width: 80px;
+}
+
+.chat__info p {
+    color: grey;
+    font-size: 14px;
+    text-align: right;
+}
+
+/* CHAT WINDOW */
+
+.chatWindow {
+    width: calc(100% - 450px);
+    height: 100%;
+    background: rgb(201, 201, 201);
+}
+
+.stackchat-logo-section {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.stackchat-logo-section .logo-section__img {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 10px;
+    /* filter: grayscale(100%); */
+}
+
+.logo-section__img img {
+     width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.logo-section__text {
+    color: grey;
+    font-size: 20px;
+}
+
+.loading {
+    position: absolute;
+    z-index: 1000;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

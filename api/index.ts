@@ -1,1 +1,1 @@
-export {default as urlApi} from './urlApi';
+export {default as stackChatApi} from './urlApi';
