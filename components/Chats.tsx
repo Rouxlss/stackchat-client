@@ -52,7 +52,7 @@ export const Chats = ({userId = null}) => {
                         <p>Cargando...</p>
                     ) || (
                         <>
-                            <UserActions userId={userId}/>
+                            <UserActions/>
                             <div className="search"></div>
                             <ul className='chats'>
                                 {
