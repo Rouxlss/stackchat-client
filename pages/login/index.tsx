@@ -9,6 +9,7 @@ import { validateSession } from '../../hooks/validateSession';
 import { useRouter } from 'next/router';
 import { AuthContext } from '../../context';
 import {Loading} from '../../components/Loading';
+import Cookies from 'js-cookie';
 
 interface phoneCodes {
     code: string;
@@ -18,7 +19,7 @@ interface phoneCodes {
 
 const LoginPage = () => {
 
-    const { loginUser, isLoggedIn, isLoading = true } = useContext(AuthContext);
+    const { loginUser, isLoggedIn, isLoading } = useContext(AuthContext);
 
     const onLoginUser = async () => {
 
@@ -42,9 +43,9 @@ const LoginPage = () => {
         }
     }, [isLoading]);
 
-    const [code, setCode] = useState<string>('');
+    const [code, setCode] = useState<string>('+503');
     const [name, setName] = useState<string>('');
-    const [number, setNumber] = useState<number>();
+    const [number, setNumber] = useState<number | string>('');
     const [sendCode, setSendCode] = useState(false);
     const [message, setMessage] = useState('');
     const [error, setError] = useState(false)
@@ -184,7 +185,7 @@ const LoginPage = () => {
 
             <div className='section'>
                 <div className="banner"></div>
-                {(isLoading && (
+                {(isLoading && Cookies.get('accessToken') && (
                     <Loading />
                 )) || (
 
@@ -195,12 +196,12 @@ const LoginPage = () => {
                                         <h4>VERIFY YOUR NUMBER</h4>
                                         <form className='form' onSubmit={submitVerifyCode} >
                                             <div className='input-group-m'>
-                                                <input className="form-control code-digit" value={verifyCodes.code1} onChange={(e) => handleCode(e)} name='code1' ref={code1} id="outlined-basic" type={'number'} />
-                                                <input className="form-control code-digit" value={verifyCodes.code2} onChange={(e) => handleCode(e)} name='code2' ref={code2} id="outlined-basic" type={'number'} />
-                                                <input className="form-control code-digit" value={verifyCodes.code3} onChange={(e) => handleCode(e)} name='code3' ref={code3} id="outlined-basic" type={'number'} />
-                                                <input className="form-control code-digit" value={verifyCodes.code4} onChange={(e) => handleCode(e)} name='code4' ref={code4} id="outlined-basic" type={'number'} />
-                                                <input className="form-control code-digit" value={verifyCodes.code5} onChange={(e) => handleCode(e)} name='code5' ref={code5} id="outlined-basic" type={'number'} />
-                                                <input className="form-control code-digit" value={verifyCodes.code6} onChange={(e) => handleCode(e)} name='code6' ref={code6} id="outlined-basic" type={'number'} />
+                                                <input className="form-control code-digit" value={verifyCodes.code1} onChange={(e) => handleCode(e)} name='code1' ref={code1} type={'number'} />
+                                                <input className="form-control code-digit" value={verifyCodes.code2} onChange={(e) => handleCode(e)} name='code2' ref={code2} type={'number'} />
+                                                <input className="form-control code-digit" value={verifyCodes.code3} onChange={(e) => handleCode(e)} name='code3' ref={code3} type={'number'} />
+                                                <input className="form-control code-digit" value={verifyCodes.code4} onChange={(e) => handleCode(e)} name='code4' ref={code4} type={'number'} />
+                                                <input className="form-control code-digit" value={verifyCodes.code5} onChange={(e) => handleCode(e)} name='code5' ref={code5} type={'number'} />
+                                                <input className="form-control code-digit" value={verifyCodes.code6} onChange={(e) => handleCode(e)} name='code6' ref={code6} type={'number'} />
                                             </div>
                                             <input type='submit' value={'Verify Code'} className='btn btn-primary' />
                                         </form>
@@ -213,24 +214,22 @@ const LoginPage = () => {
                                                     <h4>LOGIN</h4>
                                                     <form className='form' onSubmit={submitLogin} >
                                                         <div className='input-group-h'>
-                                                            <select
-                                                                value={code}
+                                                            {/* <select
+                                                                // value={'+503'}
                                                                 onChange={handleChange}
                                                                 className="form-select select-small"
                                                                 placeholder="Select your code"
-                                                                defaultValue='CODE'
+                                                                defaultValue={'+503'}
                                                             >
-                                                                {/* <option key={1} selected value="+503">+503</option> */}
-                                                                <option key="code" >CODE</option>
-                                                                {
+                                                                <option disabled value="+503">+503</option>
+                                                                {/* {
                                                                     phoneCodes.map(phoneCode => (
-                                                                        <>
-                                                                            <option key={phoneCode.code} value={phoneCode.dial_code}>{phoneCode.code} {phoneCode.dial_code}</option>
-                                                                        </>
+                                                                            <option key={phoneCode.code + 'login'} value={phoneCode.dial_code}>{phoneCode.code} {phoneCode.dial_code}</option>
                                                                     ))
                                                                 }
-                                                            </select>
-                                                            <input value={number} className="form-control input-lg" onChange={handleNumber} id="outlined-basic" name='number' type={'number'} />
+                                                            </select> */}
+                                                            <input value={code} className="form-control select-small"  name='number' disabled type={'text'} />
+                                                            <input value={number} className="form-control input-lg" onChange={handleNumber} name='number' type={'number'} />
                                                         </div>
                                                         <input type='submit' className='btn btn-secondary' value={'Go!'} />
                                                     </form>
@@ -241,7 +240,7 @@ const LoginPage = () => {
                                                 <>
                                                     <h4>REGISTER YOUR NUMBER</h4>
                                                     <form className='form' onSubmit={submitRegister} >
-                                                        <input value={name} onChange={handleName} className="form-control" placeholder='Name' id="outlined-basic" type={'text'} />
+                                                        <input value={name} onChange={handleName} className="form-control" placeholder='Name' type={'text'} />
                                                         <br />
                                                         <div className='input-group-h'>
                                                             <select
@@ -252,11 +251,11 @@ const LoginPage = () => {
                                                             >
                                                                 {
                                                                     phoneCodes.map(phoneCode => (
-                                                                        <option key={phoneCode.code} value={phoneCode.dial_code}>{phoneCode.code} {phoneCode.dial_code}</option>
+                                                                        <option key={phoneCode.code + 'register'} value={phoneCode.dial_code}>{phoneCode.code} {phoneCode.dial_code}</option>
                                                                     ))
                                                                 }
                                                             </select>
-                                                            <input className="form-control input-lg" value={number} onChange={handleNumber} id="outlined-basic" name='number' type={'number'} />
+                                                            <input className="form-control input-lg" value={number} onChange={handleNumber} name='number' type={'number'} />
                                                         </div>
                                                         <input type='submit' value={'Go!'} className='btn btn-secondary' />
                                                     </form>

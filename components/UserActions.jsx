@@ -10,8 +10,9 @@ export const UserActions = () => {
 
     useEffect(() => {
         if (user) {
+            console.log(user)
             stackChatApi
-                .get(`/users/personaInformation/${user._id}`, {
+                .get(`/users/personaInformation/${user.id}`, {
                     withCredentials: true,
                 })
                 .then((res) => {

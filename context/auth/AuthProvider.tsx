@@ -17,6 +17,7 @@ const Auth_INITIAL_STATE: AuthState = {
 }
 
 export const AuthProvider: FC = ({ children }) => {
+
     const [state, dispatch] = useReducer(authReducer, Auth_INITIAL_STATE);
 
     useEffect(() => {
@@ -25,14 +26,19 @@ export const AuthProvider: FC = ({ children }) => {
 
     const checkToken = async () => {
 
-        if(!Cookies.get('accessToken')) return;
+        if(!Cookies.get('accessToken')) {
+            return;
+        };
 
         try {
             const { data } = await stackChatApi.get('/auth/validate-token', {withCredentials: true});
             console.log(data);
             const { token, user } = data;
             Cookies.set('accessToken', token);
-            dispatch({ type: '[Auth] - Login', payload: user });
+            dispatch({ type: '[Auth] - Login', payload: {
+                user,
+                isLoading: false
+            }});
             return true;
         } catch (error) {
             Cookies.remove('accessToken');
@@ -43,10 +49,13 @@ export const AuthProvider: FC = ({ children }) => {
     const loginUser = async (code: string, number: string): Promise<boolean> => {
         try {
 
-            const { data } = await stackChatApi.put('/auth/verifycode', { code, number });
+            const { data } = await stackChatApi.put('/auth/verifycode', { code, number }, {withCredentials: true});
             const { token, user } = data;
             Cookies.set('accessToken', token);
-            dispatch({ type: '[Auth] - Login', payload: user });
+            dispatch({ type: '[Auth] - Login', payload: {
+                user,
+                isLoading: false
+            } });
             return true;
 
         } catch (error) {
@@ -58,8 +67,12 @@ export const AuthProvider: FC = ({ children }) => {
     const logoutUser = async (): Promise<boolean> => {
         try {
 
-            stackChatApi.delete('/auth/logout', {withCredentials: true});
-            dispatch({ type: '[Auth] - Logout'});
+            stackChatApi.delete('/auth/logout', {withCredentials: true})
+            .then(() => {
+                Cookies.remove('accessToken');
+            });
+            dispatch({ type: '[Auth] - Logout' });
+
             return true;
 
         } catch (error) {

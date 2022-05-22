@@ -11,7 +11,7 @@ import { useState } from "react";
 const MessagesPage = () => {
     const router = useRouter();
 
-    const { user, isLoggedIn, isLoading = true } = useContext(AuthContext);
+    const { user, isLoggedIn, isLoading } = useContext(AuthContext);
     const [userId, setUserId] = useState(null);
 
     useEffect(() => {
